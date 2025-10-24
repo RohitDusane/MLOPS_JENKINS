@@ -1,22 +1,36 @@
 # ------------------ Python ------------------
-venv/                      # Virtual environment
-__pycache__/               # Compiled Python files
-*.py[cod]                  # Python bytecode files
+venv/
+__pycache__/
+*.py[cod]
 *.pyo
 *.pyd
 
 # ------------------ Logs ------------------
-logs/                      # Log files
+logs/
 
 # ------------------ ML/Experiment tracking ------------------
-mlruns/                    # MLflow tracking files
-artifacts/                 # Processed data, models, images, etc.
-notebooks\processed_train.csv
+mlruns/
+artifacts/processed/
+artifacts/raw/
+artifacts/models/images/
+notebooks/processed_train.csv
+
+# ------------------ Data ------------------
+data/
+*.csv
+*.tsv
+*.parquet
+*.h5
+*.pickle
+
+
 # ------------------ Packaging ------------------
-MLOPS_PROJECT_1.egg-info/  # Egg info from packaging
-# setup.py                    # Only ignore if not needed in repo
+*.egg-info/
+# setup.py  # Uncomment if setup.py should be ignored
+
+# ------------------ Jupyter ------------------
+.ipynb_checkpoints/
 
 # ------------------ Misc ------------------
-project_structure.py       # Project helper scripts
-.DS_Store                  # macOS folder metadata
-*.env                      # Environment variables (if any)
+.DS_Store
+*.env
