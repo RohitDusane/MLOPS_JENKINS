@@ -10,9 +10,9 @@ logs/
 
 # ------------------ ML/Experiment tracking ------------------
 mlruns/
-artifacts/processed/
-artifacts/raw/
-artifacts/models/images/
+MLOPS_Project_1/artifacts/processed/
+MLOPS_Project_1/artifacts/raw/
+MLOPS_Project_1/artifacts/models/images/
 notebooks/processed_train.csv
 
 # ------------------ Data ------------------
