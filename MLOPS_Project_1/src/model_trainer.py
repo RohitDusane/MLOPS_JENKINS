@@ -70,7 +70,7 @@ class ModelTraining:
             'AdaBoost': AdaBoostClassifier(random_state=24),
             'DecisionTree': DecisionTreeClassifier(random_state=24),
             'KNN': KNeighborsClassifier(),
-            'XGBoost': XGBClassifier(use_label_encoder=False, eval_metric='logloss', verbosity=0, random_state=24),
+            # 'XGBoost': XGBClassifier(use_label_encoder=False, eval_metric='logloss', verbosity=0, random_state=24),
             'LGBM': LGBMClassifier(verbose=1, random_state=24),
         }
 

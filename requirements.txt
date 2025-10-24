@@ -8,6 +8,6 @@ imbalanced-learn
 mlflow
 flask
 lightgbm
-xgboost
+# xgboost
 matplotlib
 seaborn
