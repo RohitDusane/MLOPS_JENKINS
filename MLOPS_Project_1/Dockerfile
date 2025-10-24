@@ -10,7 +10,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp \
-    build-essential \
+    # build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
