@@ -1,0 +1,22 @@
+# ------------------ Python ------------------
+venv/                      # Virtual environment
+__pycache__/               # Compiled Python files
+*.py[cod]                  # Python bytecode files
+*.pyo
+*.pyd
+
+# ------------------ Logs ------------------
+logs/                      # Log files
+
+# ------------------ ML/Experiment tracking ------------------
+mlruns/                    # MLflow tracking files
+artifacts/                 # Processed data, models, images, etc.
+notebooks\processed_train.csv
+# ------------------ Packaging ------------------
+MLOPS_PROJECT_1.egg-info/  # Egg info from packaging
+# setup.py                    # Only ignore if not needed in repo
+
+# ------------------ Misc ------------------
+project_structure.py       # Project helper scripts
+.DS_Store                  # macOS folder metadata
+*.env                      # Environment variables (if any)
