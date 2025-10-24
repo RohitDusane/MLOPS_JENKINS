@@ -1,0 +1,42 @@
+## cofiguration setup
+
+data_ingestion:
+  bucket_name : "my_buck_2020"
+  bucket_file_name : "HotelReservations.csv"
+  train_ratio : 0.80
+
+data_preprocessing:
+  categorical_columns:
+    - type_of_meal_plan
+    - required_car_parking_space
+    - room_type_reserved
+    - market_segment_type
+    - repeated_guest
+    
+  numerical_columns:
+    - no_of_adults
+    - no_of_children
+    - no_of_weekend_nights
+    - no_of_week_nights
+    - lead_time
+    - arrival_year
+    - arrival_month
+    - arrival_date
+    - no_of_previous_cancellations
+    - no_of_previous_bookings_not_canceled
+    - avg_price_per_room
+    - no_of_special_requests
+    - booking_status
+  skewness_threshold : 5
+  no_of_features : 10
+
+
+model_training:
+  set_tracking_uri: 'http://127.0.0.1:5000'
+  experiment_name: "Hotel_Booking_Classification"
+  top_n : 3
+  n_iter: 5
+  cv_folds: 2
+  scoring: "roc_auc"
+    
+    
