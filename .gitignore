@@ -10,18 +10,18 @@ logs/
 
 # ------------------ ML/Experiment tracking ------------------
 mlruns/
-MLOPS_Project_1/artifacts/processed/
-MLOPS_Project_1/artifacts/raw/
+# MLOPS_Project_1/artifacts/processed/
+# MLOPS_Project_1/artifacts/raw/
 MLOPS_Project_1/artifacts/models/images/
-notebooks/processed_train.csv
+MLOPS_Project_1/notebooks/processed_train.csv
 
 # ------------------ Data ------------------
 data/
-*.csv
-*.tsv
-*.parquet
-*.h5
-*.pickle
+# *.csv
+# *.tsv
+# *.parquet
+# *.h5
+
 
 
 # ------------------ Packaging ------------------
