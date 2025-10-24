@@ -26,3 +26,11 @@ PROCESSED_TEST_DATA_PATH = os.path.join(PROCESSED_DIR, 'processed_test.csv')
 MODEL_DIR = os.path.join(BASE_DIR, 'artifacts', 'models')
 os.makedirs(MODEL_DIR , exist_ok=True)
 
+# Folder to save preprocessing artifacts (encoders, skewed columns)
+PREPROCESSING_ARTIFACTS_DIR = os.path.join(MODEL_DIR, "preprocessing")
+os.makedirs(PREPROCESSING_ARTIFACTS_DIR, exist_ok=True)
+
+# Model path that Flask will use
+MODEL_OUTPUT_PATH = os.path.join(MODEL_DIR, "best_model.pkl")
+
+

@@ -20,6 +20,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from imblearn.over_sampling import SMOTE
 
+import joblib
+
 
 
 class DataPreprocessing():
@@ -53,24 +55,50 @@ class DataPreprocessing():
             # Perform VIF - but our data is not affected hence no need to preprocess VIF
             # Label Encodig
             logging.info('Applying Label Encoder to categorical columns')
-            le = LabelEncoder()
-            mappings = {}
+            # le = LabelEncoder()
+            # mappings = {}
 
+            # for col in cat_cols:
+            #     df[col] = le.fit_transform(df[col].astype(str))
+            #     mappings[col] = {label:code for label,code in zip(le.classes_, le.transform(le.classes_))}
+            # logging.info('Label Encoded Mappings are: ')
+            # for col, mapping in mappings.items():
+            #     logging.info(f"{col} : {mapping}")
+
+            # joblib.dump(le, f"{MODEL_OUTPUT_PATH}/label_encoder_{col}.pkl")
+
+
+            # # perfrom Skewess
+            # logging.info('Data Skewness Handling')
+            # skew_threshold = self.config['data_preprocessing']['skewness_threshold']
+            # skewness = df[num_cols].apply(lambda x:x.skew())
+            # for column in skewness[skewness>skew_threshold].index:
+            #     df[column] = np.log1p(df[column])
+            # logging.info(f"Skewed columns (>{skew_threshold}): {list(skewness[skewness > skew_threshold].index)}")
+            # logging.info(f"Applied log1p to {column} for {sum(df[column] > 0)} rows")
+
+            # ----- Label Encoding -----
+            label_encoders = {}
             for col in cat_cols:
+                le = LabelEncoder()
                 df[col] = le.fit_transform(df[col].astype(str))
-                mappings[col] = {label:code for label,code in zip(le.classes_, le.transform(le.classes_))}
-            logging.info('Label Encoded Mappings are: ')
-            for col, mapping in mappings.items():
-                logging.info(f"{col} : {mapping}")
+                label_encoders[col] = le
+                # Save encoder for Flask reuse
+                joblib.dump(le, os.path.join(PREPROCESSING_ARTIFACTS_DIR, f"label_encoder_{col}.pkl"))
+            logging.info("Label encoders saved for categorical columns.")
 
-            # perfrom Skewess
-            logging.info('Data Skewness Handling')
+            # ----- Skewness Handling -----
+            logging.info('Handling Data Skewness')
             skew_threshold = self.config['data_preprocessing']['skewness_threshold']
-            skewness = df[num_cols].apply(lambda x:x.skew())
-            for column in skewness[skewness>skew_threshold].index:
-                df[column] = np.log1p(df[column])
-            logging.info(f"Skewed columns (>{skew_threshold}): {list(skewness[skewness > skew_threshold].index)}")
-            logging.info(f"Applied log1p to {column} for {sum(df[column] > 0)} rows")
+            skewness = df[num_cols].apply(lambda x: x.skew())
+            skewed_columns = skewness[skewness > skew_threshold].index.tolist()
+
+            for col in skewed_columns:
+                df[col] = np.log1p(df[col])
+
+            # Save skewed columns list
+            joblib.dump(skewed_columns, os.path.join(PREPROCESSING_ARTIFACTS_DIR, "skewed_columns.pkl"))
+            logging.info(f"Skewed columns handled and saved: {skewed_columns}")
 
             return df
         except Exception as e:
@@ -104,28 +132,50 @@ class DataPreprocessing():
             logging.error(f"Error during data balancing step: {e}")
             raise CustomException("Failed to Balanced data.", e)
         
-    def select_features(self,df):
+    def select_features(self, df):
         try:
             logging.info('Feature Selection Step')
+
+            # Split X and y
             X = df.drop(columns='booking_status')
             y = df['booking_status']
+
+            # Train RandomForest to get feature importances
             model = RandomForestClassifier(random_state=24)
-            model.fit(X,y)
-            feature_importance = model.feature_importances_
+            model.fit(X, y)
+
+            # Create feature importance dataframe
             feature_importance_df = pd.DataFrame({
-                'Feature':X.columns,
-                'Importances': feature_importance
+                'Feature': X.columns,
+                'Importances': model.feature_importances_
             })
-            top_features_importances_df = feature_importance_df.sort_values(by='Importances', ascending=False)
+
+            # Sort features by importance
+            top_features_importances_df = feature_importance_df.sort_values(
+                by='Importances', ascending=False
+            )
+
+            # Select top N features dynamically
             num_features_to_select = self.config['data_preprocessing']['no_of_features']
-            top_10_features = top_features_importances_df['Feature'].head(num_features_to_select)
-            logging.info(f'Features selected : {top_10_features}')
-            top_10_features_df = df[top_10_features.tolist() + ['booking_status']]
-            logging.info('Features selection completed successfully')
-            return top_10_features_df
+            top_features = top_features_importances_df['Feature'].head(num_features_to_select)
+            logging.info(f'Features selected : \n {top_features.tolist()}')
+
+            # Save top features list for later use in app
+            joblib.dump(
+                top_features.tolist(), 
+                os.path.join(PREPROCESSING_ARTIFACTS_DIR, "top_features.pkl")
+            )
+
+            # Return dataframe with top features + target
+            top_features_df = df[top_features.tolist() + ['booking_status']]
+            logging.info('Feature selection completed successfully')
+
+            return top_features_df
+
         except Exception as e:
             logging.error(f"Error during feature selection step: {e}")
             raise CustomException("Failed to Select Features", e)
+
     
 
     def run_preprocessing(self):
@@ -155,10 +205,10 @@ class DataPreprocessing():
 
         
 # Testing
-# if __name__ =="__main__":
-#     logging.info('Data Preprocessing pipeline starting...')
-#     data_processor = DataPreprocessing(train_path=TRAIN_FILE_PATH,
-#                                   test_path=TEST_FILE_PATH,
-#                                   processed_dir=PROCESSED_DIR,
-#                                   config_path=CONFIG_PATH)
-#     data_processor.run_preprocessing()
+if __name__ =="__main__":
+    logging.info('Data Preprocessing pipeline starting...')
+    data_processor = DataPreprocessing(train_path=TRAIN_FILE_PATH,
+                                  test_path=TEST_FILE_PATH,
+                                  processed_dir=PROCESSED_DIR,
+                                  config_path=CONFIG_PATH)
+    data_processor.run_preprocessing()

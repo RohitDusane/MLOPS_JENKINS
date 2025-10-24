@@ -260,6 +260,10 @@ class ModelTraining:
         joblib.dump(model, model_path)
         logging.info(f"Best model saved at {model_path}")
 
+        # ✅ Also save/update the global Flask model path
+        joblib.dump(model, MODEL_OUTPUT_PATH)
+        logging.info(f"Flask model updated at {MODEL_OUTPUT_PATH}")
+
     
     def hyperparameter_tuning(self, top_models, X_train, y_train, X_test, y_test):
         """
