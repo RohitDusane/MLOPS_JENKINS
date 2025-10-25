@@ -57,7 +57,9 @@ pipeline {
                         gcloud config set project ${GCP_PROJECT}
 
                         # Configure Docker to authenticate with GCR
-                        gcloud auth configure-docker --quiet
+                        gcloud auth configure-docker gcr.io --quiet
+
+                        // gcloud auth configure-docker --quiet
 
                         # Build the Docker image
                         docker build -f MLOPS_Project_1/Dockerfile -t gcr.io/${GCP_PROJECT}/ml-project:latest .
