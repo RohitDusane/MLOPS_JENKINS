@@ -9,5 +9,3 @@ mlflow
 flask
 lightgbm
 # xgboost
-matplotlib
-seaborn
