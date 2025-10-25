@@ -1,4 +1,4 @@
-FROM python:slim-buster
+FROM python:3.9-slim-buster
 
 # Set environment variables to prevent writing .pyc files and to keep logs unbuffered
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -14,13 +14,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy only the requirements.txt first to take advantage of Docker cache
-COPY requirements.txt .
+COPY requirements.txt ./
 
 # Install Python dependencies from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application files
-COPY . .
+COPY . ./
 
 # Optionally, if your training script requires certain system-level dependencies for specific libraries like XGBoost or LightGBM, you can install them here as well
 # For example, LightGBM might require a specific version of cmake or other dependencies.
@@ -33,4 +33,4 @@ RUN python pipeline/training_pipeline.py
 EXPOSE 5000
 
 # Start the application
-CMD ["python", "application.py"]
+CMD ["bash", "start.sh"]
