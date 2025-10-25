@@ -10,15 +10,17 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp \
-    # build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy application files to the container
-COPY . .
+# Copy only the requirements.txt first to take advantage of Docker cache
+COPY requirements.txt .
 
 # Install Python dependencies from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application files
+COPY . .
 
 # Optionally, if your training script requires certain system-level dependencies for specific libraries like XGBoost or LightGBM, you can install them here as well
 # For example, LightGBM might require a specific version of cmake or other dependencies.
