@@ -14,50 +14,50 @@ pipeline {
             steps {
                 script {
                     echo 'Cloning Github repo to Jenkins..........'
-                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-tokens', url: 'https://github.com/RohitDusane/MLOPS_JENKINS.git']])
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/RohitDusane/MLOPS_JENKINS.git']])
                 }
             }
         }
 
-        stage('Setting up virtual environment and Installing dependencies') {
-            steps {
-                script {
-                    echo 'Setting up virtual environment and Installing dependencies..........'
-                    sh '''
-                    python -m venv ${VENV_DIR}
-                    . ${VENV_DIR}/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
-                    '''
-                }
-            }
-        }
+        // stage('Setting up virtual environment and Installing dependencies') {
+        //     steps {
+        //         script {
+        //             echo 'Setting up virtual environment and Installing dependencies..........'
+        //             sh '''
+        //             python -m venv ${VENV_DIR}
+        //             . ${VENV_DIR}/bin/activate
+        //             pip install --upgrade pip
+        //             pip install -r requirements.txt
+        //             '''
+        //         }
+        //     }
+        // }
 
-        stage('Building and pushing Docker image to Google Container Registry') {
-            steps {
-                withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
-                    script {
-                        echo 'Building and Pushing Docker Image to GCR.............'
-                        sh '''
-                        # Authenticate with Google Cloud using service account
-                        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+        // stage('Building and pushing Docker image to Google Container Registry') {
+        //     steps {
+        //         withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+        //             script {
+        //                 echo 'Building and Pushing Docker Image to GCR.............'
+        //                 sh '''
+        //                 # Authenticate with Google Cloud using service account
+        //                 gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
 
-                        # Set the GCP project
-                        gcloud config set project ${GCP_PROJECT}
+        //                 # Set the GCP project
+        //                 gcloud config set project ${GCP_PROJECT}
 
-                        # Configure Docker to authenticate with GCR
-                        gcloud auth configure-docker --quiet
+        //                 # Configure Docker to authenticate with GCR
+        //                 gcloud auth configure-docker --quiet
 
-                        # Build the Docker image
-                        docker build -f MLOPS_Project_1/Dockerfile -t gcr.io/${GCP_PROJECT}/ml-project:latest .
+        //                 # Build the Docker image
+        //                 docker build -f MLOPS_Project_1/Dockerfile -t gcr.io/${GCP_PROJECT}/ml-project:latest .
 
-                        # Push the Docker image to GCR
-                        docker push gcr.io/${GCP_PROJECT}/ml-project:latest
-                        '''
-                    }
-                }
-            }
-        }
+        //                 # Push the Docker image to GCR
+        //                 docker push gcr.io/${GCP_PROJECT}/ml-project:latest
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
     }
 }

@@ -24,11 +24,11 @@ RUN groupadd -f docker && \
     usermod -aG docker jenkins
 
 # Create the Docker directory and volume for DinD
-RUN mkdir -p /var/lib/docker && \
-    chown -R jenkins:docker /var/lib/docker
-
-# Set Docker directory as a volume
+RUN mkdir -p /var/lib/docker
 VOLUME /var/lib/docker
+
+# Ensure Jenkins user has permission to access Docker socket
+RUN chown -R jenkins:docker /var/lib/docker
 
 # Switch back to the Jenkins user
 USER jenkins
