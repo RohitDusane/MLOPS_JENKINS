@@ -39,6 +39,14 @@ pipeline {
                     script {
                         echo 'Building and Pushing Docker Image to Google Container Registry.............'
                         sh '''
+                        # Set DNS to Google's public DNS servers
+                        export DNS_SERVER_1=8.8.8.8
+                        export DNS_SERVER_2=8.8.4.4
+                        
+                        # Update /etc/resolv.conf to use Google's DNS
+                        echo "nameserver $DNS_SERVER_1" > /etc/resolv.conf
+                        echo "nameserver $DNS_SERVER_2" >> /etc/resolv.conf
+                        
                         # Gcloud avaiale or not 
                         export PATH=$PATH:${GCLOUD_PATH}
 
