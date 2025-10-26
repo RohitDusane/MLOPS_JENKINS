@@ -16,11 +16,15 @@ RUN apt-get update && \
 # Copy project files into the container
 COPY . .
 
+# Check that the 'training_pipeline.py' file is in the pipeline directory
+RUN ls -al /app/MLOPS_Project_1/pipeline
+
 # Install the package requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Train the model before running the application
 RUN python pipeline/training_pipeline.py
+
 
 # Expose the port (assuming the app runs on port 5000)
 EXPOSE 5000
