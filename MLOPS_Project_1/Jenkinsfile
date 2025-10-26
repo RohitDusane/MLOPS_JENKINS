@@ -23,14 +23,14 @@ pipeline {
             }
         }
 
-        stage('Load Jenkinsfile') {
-            steps {
-                script {
-                    // Specify the subdirectory where the Jenkinsfile is located
-                    load 'MLOPS_Project_1/Jenkinsfile'
-                }
-            }
-        }
+        // stage('Load Jenkinsfile') {
+        //     steps {
+        //         script {
+        //             // Specify the subdirectory where the Jenkinsfile is located
+        //             load 'MLOPS_Project_1/Jenkinsfile'
+        //         }
+        //     }
+        // }
 
         // stage('Setting up virtual environment and Installing dependencies') {
         //     steps {
