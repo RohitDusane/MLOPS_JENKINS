@@ -16,8 +16,8 @@ RUN apt-get update -y && \
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list && \
     apt-get update -y && \
     apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get clean
+    # rm -rf /var/lib/apt/lists/*
 
 # Add Jenkins user to the Docker group (create the group if it doesn't exist)
 RUN groupadd -f docker && \

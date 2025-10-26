@@ -2,11 +2,11 @@
 pipeline {
     agent any
 
-    environment {
-        VENV_DIR = 'venv'
-        GCP_PROJECT = 'mlops-project-1-476006' // Update your GCP project ID here
-        GCLOUD_PATH = '/usr/bin'
-    }
+    // environment {
+    //     VENV_DIR = 'venv'
+    //     GCP_PROJECT = 'mlops-project-1-476006' // Update your GCP project ID here
+    //     GCLOUD_PATH = '/usr/bin'
+    // }
 
 
     stages {
@@ -19,58 +19,58 @@ pipeline {
             }
         }
 
-        stage('Setting up virtual environment and Installing dependencies') {
-            steps {
-                script {
-                    echo 'Setting up virtual environment and Installing dependencies..........'
-                    sh '''
-                    python -m venv ${VENV_DIR}
-                    . ${VENV_DIR}/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
-                    '''
-                }
-            }
-        }
+        // stage('Setting up virtual environment and Installing dependencies') {
+        //     steps {
+        //         script {
+        //             echo 'Setting up virtual environment and Installing dependencies..........'
+        //             sh '''
+        //             python -m venv ${VENV_DIR}
+        //             . ${VENV_DIR}/bin/activate
+        //             pip install --upgrade pip
+        //             pip install -r requirements.txt
+        //             '''
+        //         }
+        //     }
+        // }
 
-        stage('Building and pushing Docker image to Google Container Registry') {
-            steps {
-                withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
-                    script {
-                        echo 'Building and Pushing Docker Image to Google Container Registry.............'
-                        sh '''
-                        # Set DNS to Google's public DNS servers
-                        export DNS_SERVER_1=8.8.8.8
-                        export DNS_SERVER_2=8.8.4.4
+        // stage('Building and pushing Docker image to Google Container Registry') {
+        //     steps {
+        //         withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+        //             script {
+        //                 echo 'Building and Pushing Docker Image to Google Container Registry.............'
+        //                 sh '''
+        //                 # Set DNS to Google's public DNS servers
+        //                 export DNS_SERVER_1=8.8.8.8
+        //                 export DNS_SERVER_2=8.8.4.4
                         
-                        # Update /etc/resolv.conf to use Google's DNS
-                        echo "nameserver $DNS_SERVER_1" > /etc/resolv.conf
-                        echo "nameserver $DNS_SERVER_2" >> /etc/resolv.conf
+        //                 # Update /etc/resolv.conf to use Google's DNS
+        //                 echo "nameserver $DNS_SERVER_1" > /etc/resolv.conf
+        //                 echo "nameserver $DNS_SERVER_2" >> /etc/resolv.conf
                         
-                        # Gcloud avaiale or not 
-                        export PATH=$PATH:${GCLOUD_PATH}
+        //                 # Gcloud avaiale or not 
+        //                 export PATH=$PATH:${GCLOUD_PATH}
 
-                        # Authenticate with Google Cloud using service account
-                        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+        //                 # Authenticate with Google Cloud using service account
+        //                 gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
 
-                        # Set the GCP project
-                        gcloud config set project ${GCP_PROJECT}
+        //                 # Set the GCP project
+        //                 gcloud config set project ${GCP_PROJECT}
 
-                        # Configure Docker to authenticate with GCR
-                        gcloud auth configure-docker gcr.io --quiet
+        //                 # Configure Docker to authenticate with GCR
+        //                 gcloud auth configure-docker gcr.io --quiet
 
-                        // gcloud auth configure-docker --quiet
+        //                 // gcloud auth configure-docker --quiet
 
-                        # Build the Docker image
-                        docker build -f MLOPS_Project_1/Dockerfile -t gcr.io/${GCP_PROJECT}/ml-project:latest .
+        //                 # Build the Docker image
+        //                 docker build -f MLOPS_Project_1/Dockerfile -t gcr.io/${GCP_PROJECT}/ml-project:latest .
 
-                        # Push the Docker image to GCR
-                        docker push gcr.io/${GCP_PROJECT}/ml-project:latest
-                        '''
-                    }
-                }
-            }
-        }
+        //                 # Push the Docker image to GCR
+        //                 docker push gcr.io/${GCP_PROJECT}/ml-project:latest
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
     }
 }
