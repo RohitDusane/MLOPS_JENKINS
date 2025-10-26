@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM python:3.9-slim-bullseye
 
 # Set environment variables to prevent writing .pyc files and to keep logs unbuffered
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -8,11 +8,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # Install system dependencies
-RUN sed -i 's|buster|bullseye|g' /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends libgomp && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libgomp1 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 COPY . .
