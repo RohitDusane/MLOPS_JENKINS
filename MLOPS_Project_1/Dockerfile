@@ -19,7 +19,7 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Train the model before running the application
-RUN python pipeline/training_pipeline.py
+RUN python MLOPS_Project_1/pipeline/training_pipeline.py
 
 # Expose the port (assuming the app runs on port 5000)
 EXPOSE 5000
