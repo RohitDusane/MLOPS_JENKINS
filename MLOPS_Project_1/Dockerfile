@@ -8,10 +8,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgomp \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN sed -i 's|buster|bullseye|g' /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends libgomp && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 
 COPY . .
 
