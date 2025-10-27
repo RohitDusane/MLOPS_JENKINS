@@ -22,12 +22,12 @@ from utils.common_functions import read_yaml, load_data
 
 from sklearn.model_selection import RandomizedSearchCV
 
-from sklearn.linear_model import LogisticRegression
+# from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, AdaBoostClassifier
+from sklearn.ensemble import GradientBoostingClassifier, AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from xgboost import XGBClassifier
+# from sklearn.svm import SVC
+# from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier  # optional but great for performance
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score,confusion_matrix, log_loss
 from scipy.stats import randint,uniform
@@ -77,16 +77,16 @@ class ModelTraining:
 
         # Hyperparameter grids for tuning top 3 models
         self.param_grids = {
-            'RandomForest': {
-                'n_estimators': [100, 200],
-                'max_depth': [None, 10, 20],
-                'min_samples_split': [2, 5]
-            },
-            'XGBoost': {
-                'n_estimators': [100, 200],
-                'max_depth': [3, 5, 10],
-                'learning_rate': [0.01, 0.1]
-            },
+            # 'RandomForest': {
+            #     'n_estimators': [100, 200],
+            #     'max_depth': [None, 10, 20],
+            #     'min_samples_split': [2, 5]
+            # },
+            # 'XGBoost': {
+            #     'n_estimators': [100, 200],
+            #     'max_depth': [3, 5, 10],
+            #     'learning_rate': [0.01, 0.1]
+            # },
             'LGBM': {
                 'n_estimators': [100, 200],
                 'max_depth': [3, 5, 100],
@@ -94,20 +94,20 @@ class ModelTraining:
                 'boosting_type' : ['gbdt', 'dart'],
                 "min_data_in_leaf": [10, 20, 50]
             },
-            "LogisticRegression": {
-                "C": [0.01, 0.1, 1, 10],
-                "solver": ["liblinear", "lbfgs"]
-            },
+            # "LogisticRegression": {
+            #     "C": [0.01, 0.1, 1, 10],
+            #     "solver": ["liblinear", "lbfgs"]
+            # },
             "GradientBoosting": {
                 "n_estimators": [50, 100, 200],
                 "learning_rate": [0.01, 0.1, 0.2],
                 "max_depth": [3, 5, 7]
             },
-            "SVC": {
-                "C": [0.1, 1, 10],
-                "kernel": ["linear", "rbf"],
-                "gamma": ["scale", "auto"]
-            },
+            # "SVC": {
+            #     "C": [0.1, 1, 10],
+            #     "kernel": ["linear", "rbf"],
+            #     "gamma": ["scale", "auto"]
+            # },
             "KNN": {
                 "n_neighbors": [3, 5, 7],
                 "weights": ["uniform", "distance"],
