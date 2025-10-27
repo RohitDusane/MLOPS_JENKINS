@@ -30,7 +30,7 @@ RUN python pipeline/training_pipeline.py
 
 
 # Expose the port (assuming the app runs on port 5000)
-EXPOSE 5000
+EXPOSE 8080
 
 # Start the application
 CMD ["python", "application.py"]
