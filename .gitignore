@@ -12,8 +12,8 @@ logs/
 mlruns/
 # MLOPS_Project_1/artifacts/processed/
 # MLOPS_Project_1/artifacts/raw/
-MLOPS_Project_1/artifacts/models/images/
-MLOPS_Project_1/notebooks/processed_train.csv
+artifacts/models/images/
+notebooks/processed_train.csv
 
 # ------------------ Data ------------------
 data/
@@ -26,7 +26,7 @@ data/
 
 # ------------------ Packaging ------------------
 *.egg-info/
-# setup.py  # Uncomment if setup.py should be ignored
+setup.py/
 
 # ------------------ Jupyter ------------------
 .ipynb_checkpoints/

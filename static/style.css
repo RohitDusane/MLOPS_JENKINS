@@ -1,0 +1,143 @@
+/* ---------------- Base Styles ---------------- */
+body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    color: #000; /* black text for clarity */
+    background: url('https://images.unsplash.com/photo-1667125094717-47e0ff6d0608?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=dad-hotel-FCSDBKliyTQ-unsplash.jpg')
+        no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Overlay (optional for readability) */
+.bg-overlay {
+    background-color: rgba(0, 0, 0, 0); /* fully transparent */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---------------- Container / Card ---------------- */
+.container {
+    width: 85%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0); /* fully transparent */
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px); /* subtle blur to separate from background */
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    box-shadow: none;
+}
+
+/* ---------------- Title ---------------- */
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #000; /* bold black for clarity */
+    font-weight: 900;
+    text-shadow: 0 0 3px rgba(255,255,255,0.4); /* optional subtle glow */
+}
+
+/* ---------------- Form Layout ---------------- */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+label {
+    margin-bottom: 6px;
+    font-weight: 700;
+    color: #000; /* bold black text */
+}
+
+/* ---------------- Inputs ---------------- */
+input,
+select,
+textarea {
+    -webkit-appearance: none; /* remove default styling */
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent; /* fully transparent */
+    color: #000; /* black text */
+    font-weight: 700;
+    border: 2px solid rgba(0,0,0,0.7); /* dark border for contrast */
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 15px;
+    box-shadow: none; /* remove browser shadow */
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: rgba(0,0,0,0.6); /* visible placeholder */
+    font-weight: 600;
+}
+
+/* Focus effect for inputs */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: rgba(0,0,0,1);
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+/* ---------------- Button ---------------- */
+.predict-btn {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 12px;
+    background-color: rgba(0,0,0,0.1); /* very light transparent button */
+    color: #000; /* black text */
+    border: 2px solid rgba(0,0,0,0.7);
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.predict-btn:hover {
+    background-color: rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+/* ---------------- Result Text ---------------- */
+.result {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 18px;
+    color: #000; /* black for readability */
+    font-weight: 700;
+}
+
+.cancel {
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+.confirm {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 25px;
+        width: 90%;
+    }
+}

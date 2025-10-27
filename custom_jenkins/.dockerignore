@@ -1,0 +1,6 @@
+# Ignore unnecessary files
+.git
+node_modules
+*.log
+*.md
+
