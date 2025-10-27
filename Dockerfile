@@ -6,6 +6,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Set working directory inside the container
 WORKDIR /app
+ENV PYTHONPATH=/app/src:$PYTHONPATH
+
 
 # Install system dependencies
 RUN apt-get update && \
@@ -13,7 +15,7 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy project files into the container
-COPY . .
+COPY . /app
 
 # Check that the 'training_pipeline.py' file is in the pipeline directory
 # RUN ls -al /app/MLOPS_Project_1/pipeline

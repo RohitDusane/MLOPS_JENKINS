@@ -1,12 +1,12 @@
 import sys
-from src.logger import logging
-from src.exception import CustomException
-from config.paths_configs import *
-from utils.common_functions import read_yaml
+from .src.logger import logging
+from .src.exception import CustomException
+from .config.paths_configs import *
+from .utils.common_functions import read_yaml
 
-from src.data_ingestion import DataIngestion
-from src.data_preprocessing import DataPreprocessing
-from src.model_trainer import ModelTraining
+from .src.data_ingestion import DataIngestion
+from .src.data_preprocessing import DataPreprocessing
+from .src.model_trainer import ModelTraining
 
 def main():
     try:
