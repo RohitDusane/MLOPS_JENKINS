@@ -7,3 +7,5 @@ imbalanced-learn
 mlflow
 flask
 lightgbm
+seaborn
+matplotlib

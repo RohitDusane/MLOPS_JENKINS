@@ -5,8 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 # Set working directory inside the container
-WORKDIR /app/MLOPS_Project_1
-ENV PYTHONPATH=/app/MLOPS_Project_1/src:$PYTHONPATH
+WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && \
@@ -17,9 +16,11 @@ RUN apt-get update && \
 COPY . .
 
 # Check that the 'training_pipeline.py' file is in the pipeline directory
-RUN ls -al /app/MLOPS_Project_1/pipeline
+# RUN ls -al /app/MLOPS_Project_1/pipeline
 
 # Install the package requirements.txt
+RUN pip install --upgrade pip
+RUN pip install seaborn
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Train the model before running the application
